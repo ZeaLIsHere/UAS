@@ -1,4 +1,4 @@
-program StatistikMahasiswa;
+program Raja_Akademik;
 uses crt;
 
 const
@@ -11,6 +11,7 @@ type
         nilaiuts: real;
         nilaikuis: real;
         nilaiharian: real;
+        nilai: real; // Nilai total
     end;
 
 var
@@ -42,6 +43,12 @@ begin
         readln(data[i].nilaikuis);
         write('Nilai Harian: ');
         readln(data[i].nilaiharian);
+
+        // Hitung nilai total
+        data[i].nilai := (data[i].nilaiuas * 0.15) +
+                         (data[i].nilaiuts * 0.15) +
+                         (data[i].nilaikuis * 0.10) +
+                         (data[i].nilaiharian * 0.60);
     end;
 end;
 
@@ -53,7 +60,7 @@ begin
     total := 0;
     for i := 1 to jumlah do
     begin
-        total := total + (data[i].nilaiuas + data[i].nilaiuts + data[i].nilaikuis + data[i].nilaiharian) / 4;
+        total := total + data[i].nilai; // Gunakan nilai total
     end;
     HitungRataRata := total / jumlah;
 end;
@@ -63,7 +70,7 @@ var
     i: integer;
     maks: real;
 begin
-    maks := data[1].nilai;
+    maks := data[1].nilai; // Gunakan nilai total
     for i := 2 to jumlah do
     begin
         if data[i].nilai > maks then
@@ -77,7 +84,7 @@ var
     i: integer;
     min: real;
 begin
-    min := data[1].nilai;
+    min := data[1].nilai; // Gunakan nilai total
     for i := 2 to jumlah do
     begin
         if data[i].nilai < min then
@@ -97,7 +104,6 @@ begin
         begin
             if data[j].nilai < data[j + 1].nilai then
             begin
-                // untuk tukar elemen ini nas
                 temp := data[j];
                 data[j] := data[j + 1];
                 data[j + 1] := temp;
@@ -109,7 +115,6 @@ end;
 procedure TampilkanStatistik(const data: array of TMahasiswa; jumlah: integer);
 var
     rataRata, maks, min: real;
-    i: integer;
 begin
     rataRata := HitungRataRata(data, jumlah);
     maks := CariNilaiMaksimum(data, jumlah);
